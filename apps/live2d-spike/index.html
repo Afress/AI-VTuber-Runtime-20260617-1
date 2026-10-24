@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live2D v8 Engine Spike</title>
+  </head>
+  <body>
+    <main class="page">
+      <section class="panel">
+        <div class="header">
+          <div>
+            <h1>Live2D v8 Engine Spike</h1>
+            <p>Isolated render-only test for /live2d/model.model3.json</p>
+          </div>
+          <span id="status" class="status">idle</span>
+        </div>
+
+        <div class="controls">
+          <input id="model-url" value="/live2d/model.model3.json" aria-label="Live2D model URL" />
+          <button id="load-button" type="button">Load Model</button>
+          <button id="force-reload-button" type="button">Force Reload</button>
+        </div>
+
+        <section class="parameter-panel">
+          <div class="section-header">
+            <h2>Viewer / Model Transform</h2>
+            <p>Resize the Live2D viewer and adjust model scale / position without reloading the model.</p>
+          </div>
+
+          <label class="field">
+            <span>Viewer width: <strong id="viewer-width-value">520</strong></span>
+            <input id="viewer-width-slider" type="range" min="320" max="1200" step="10" value="520" />
+          </label>
+
+          <label class="field">
+            <span>Viewer height: <strong id="viewer-height-value">720</strong></span>
+            <input id="viewer-height-slider" type="range" min="400" max="1200" step="10" value="720" />
+          </label>
+
+          <label class="field">
+            <span>Model scale: <strong id="model-scale-value">0.50</strong></span>
+            <input id="model-scale-slider" type="range" min="0.2" max="3" step="0.05" value="0.5" />
+          </label>
+
+          <label class="field">
+            <span>Model X: <strong id="model-offset-x-value">0</strong></span>
+            <input id="model-offset-x-slider" type="range" min="-400" max="400" step="1" value="0" />
+          </label>
+
+          <label class="field">
+            <span>Model Y: <strong id="model-offset-y-value">317</strong></span>
+            <input id="model-offset-y-slider" type="range" min="-400" max="400" step="1" value="317" />
+          </label>
+
+          <div class="controls two-buttons">
+            <button id="fit-to-height-button" type="button">Fit to height</button>
+            <button id="center-model-button" type="button">Center model</button>
+            <button id="reset-transform-button" type="button">Reset Transform to Validated Defaults</button>
+          </div>
+
+          <dl class="debug-grid">
+            <div>
+              <dt>Validated default transform</dt>
+              <dd id="validated-transform-display">520 x 720, scale 0.50, offset (0, 317)</dd>
+            </div>
+            <div>
+              <dt>Current transform</dt>
+              <dd id="current-transform-display">520 x 720, scale 0.50, offset (0, 317)</dd>
+            </div>
+            <div>
+              <dt>Viewer size</dt>
+              <dd id="viewer-size-display">520 x 720</dd>
+            </div>
+            <div>
+              <dt>Model scale</dt>
+              <dd id="model-scale-display">0.50</dd>
+            </div>
+            <div>
+              <dt>Model offset X/Y</dt>
+              <dd id="model-offset-display">0 / 317</dd>
+            </div>
+            <div>
+              <dt>Current model position</dt>
+              <dd id="model-position-display">none</dd>
+            </div>
+            <div>
+              <dt>Current rendered size</dt>
+              <dd id="model-rendered-size-display">none</dd>
+            </div>
+          </dl>
+        </section>
+
+        <div id="canvas-host" class="canvas-host"></div>
+
+        <dl class="debug-grid">
+          <div>
+            <dt>Pixi</dt>
+            <dd id="pixi-version">unknown</dd>
+          </div>
+          <div>
+            <dt>Engine</dt>
+            <dd id="engine-version">unknown</dd>
+          </div>
+          <div>
+            <dt>Cubism Core loaded</dt>
+            <dd id="cubism-core-loaded">no</dd>
+          </div>
+          <div>
+            <dt>Model URL</dt>
+            <dd id="current-model-url">none</dd>
+          </div>
+          <div>
+            <dt>Asset Source</dt>
+            <dd>apps/web/public/live2d</dd>
+          </div>
+          <div>
+            <dt>Browser URL</dt>
+            <dd id="browser-url">http://localhost:&lt;port&gt;/live2d/model.model3.json</dd>
+          </div>
+          <div>
+            <dt>Actual Loaded URL</dt>
+            <dd id="actual-loaded-url">none</dd>
+          </div>
+          <div>
+            <dt>Last HTTP Status</dt>
+            <dd id="last-http-status">none</dd>
+          </div>
+          <div>
+            <dt>Last Loaded At</dt>
+            <dd id="last-loaded-at">none</dd>
+          </div>
+        </dl>
+
+        <section class="parameter-panel">
+          <div class="section-header">
+            <h2>Live2D Parameter Exploration</h2>
+            <p>Manual parameter test only. No TTS, analyser, emotion, or motion is connected.</p>
+          </div>
+
+          <dl class="debug-grid">
+            <div>
+              <dt>Parameter count</dt>
+              <dd id="parameter-count">none</dd>
+            </div>
+            <div>
+              <dt>Parameter ID source</dt>
+              <dd id="parameter-id-source">none</dd>
+            </div>
+            <div>
+              <dt>Candidate mouth parameters</dt>
+              <dd id="candidate-mouth-parameters">none</dd>
+            </div>
+            <div>
+              <dt>Selected mouth parameter</dt>
+              <dd id="selected-mouth-parameter">none</dd>
+            </div>
+            <div>
+              <dt>Selected parameter index</dt>
+              <dd id="selected-parameter-index">none</dd>
+            </div>
+            <div>
+              <dt>Set API used</dt>
+              <dd id="set-api-used">none</dd>
+            </div>
+            <div>
+              <dt>Before value</dt>
+              <dd id="before-parameter-value">none</dd>
+            </div>
+            <div>
+              <dt>After value</dt>
+              <dd id="after-parameter-value">none</dd>
+            </div>
+            <div>
+              <dt>Mouth parameter update</dt>
+              <dd id="mouth-parameter-status">idle</dd>
+            </div>
+          </dl>
+
+          <label class="field">
+            <span>Manual Mouth Parameter</span>
+            <input id="mouth-parameter-input" value="" placeholder="ParamMouthOpenY" />
+          </label>
+
+          <label class="field">
+            <span>Mouth Test Slider: <strong id="mouth-slider-value">0.00</strong></span>
+            <input id="mouth-slider" type="range" min="0" max="1" step="0.01" value="0" />
+          </label>
+
+          <div>
+            <h3>Parameter ID list</h3>
+            <pre id="parameter-list" class="list-output">none</pre>
+          </div>
+        </section>
+
+        <section class="parameter-panel">
+          <div class="section-header">
+            <h2>Audio Mouth Sync</h2>
+            <p>Spike-only Web Audio analyser driving ParamMouthOpenY by parameter index.</p>
+          </div>
+
+          <div class="controls">
+            <input id="audio-file-input" type="file" accept=".wav,.mp3,.ogg,audio/wav,audio/mpeg,audio/ogg" />
+            <button id="audio-play-button" type="button">Play</button>
+            <button id="audio-stop-button" type="button">Stop</button>
+          </div>
+
+          <label class="field inline-field">
+            <input id="mouth-sync-enabled" type="checkbox" checked />
+            <span>Mouth sync enabled</span>
+          </label>
+
+          <label class="field inline-field">
+            <input id="reset-mouth-on-stop" type="checkbox" checked />
+            <span>Reset applied mouth to zero on stop</span>
+          </label>
+
+          <p>Does not change manual slider value.</p>
+
+          <label class="field">
+            <span>Mouth gain: <strong id="mouth-gain-value">2.0</strong></span>
+            <input id="mouth-gain-slider" type="range" min="0.5" max="5" step="0.1" value="2" />
+          </label>
+
+          <label class="field">
+            <span>Mouth smoothing: <strong id="mouth-smoothing-value">0.65</strong></span>
+            <input id="mouth-smoothing-slider" type="range" min="0" max="0.95" step="0.01" value="0.65" />
+          </label>
+
+          <button id="reset-manual-slider-button" type="button">Reset Manual Slider</button>
+
+          <dl class="debug-grid">
+            <div>
+              <dt>Current RMS</dt>
+              <dd id="current-rms">0.0000</dd>
+            </div>
+            <div>
+              <dt>Current mouthValue</dt>
+              <dd id="current-audio-mouth-value">0.0000</dd>
+            </div>
+            <div>
+              <dt>Control source</dt>
+              <dd id="mouth-control-source">manual slider</dd>
+            </div>
+            <div>
+              <dt>isAudioPlaying</dt>
+              <dd id="is-audio-playing">false</dd>
+            </div>
+            <div>
+              <dt>Manual mouth value</dt>
+              <dd id="manual-mouth-value">0.0000</dd>
+            </div>
+            <div>
+              <dt>Audio mouth value</dt>
+              <dd id="audio-mouth-value">0.0000</dd>
+            </div>
+            <div>
+              <dt>Applied mouth value</dt>
+              <dd id="applied-mouth-value">0.0000</dd>
+            </div>
+            <div>
+              <dt>Target parameter</dt>
+              <dd id="audio-target-parameter">ParamMouthOpenY</dd>
+            </div>
+            <div>
+              <dt>Set API used</dt>
+              <dd id="audio-set-api-used">setParameterValueByIndex</dd>
+            </div>
+            <div>
+              <dt>Target index</dt>
+              <dd id="audio-target-index">50</dd>
+            </div>
+            <div>
+              <dt>Audio status</dt>
+              <dd id="audio-status">idle</dd>
+            </div>
+            <div>
+              <dt>Last ended behavior</dt>
+              <dd id="last-ended-behavior">none</dd>
+            </div>
+            <div>
+              <dt>Reset applied mouth to zero on stop</dt>
+              <dd id="reset-applied-mouth-enabled">true</dd>
+            </div>
+            <div>
+              <dt>Last reset affected</dt>
+              <dd id="last-reset-affected">none</dd>
+            </div>
+          </dl>
+
+          <pre id="audio-error-output" class="error-output" hidden></pre>
+        </section>
+
+        <section class="parameter-panel">
+          <div class="section-header">
+            <h2>IndexTTS2 HTTP Test</h2>
+            <p>Generate audio through the local HTTP wrapper, then reuse the existing analyser mouth sync.</p>
+          </div>
+
+          <label class="field">
+            <span>TTS endpoint</span>
+            <input id="tts-endpoint-input" value="http://localhost:7861/tts" />
+          </label>
+
+          <label class="field">
+            <span>Text</span>
+            <textarea id="tts-text-input" rows="3">&#20320;&#22909;&#65292;&#25105;&#26159; Live2D &#28204;&#35430;&#35282;&#33394;&#12290;</textarea>
+          </label>
+
+          <div class="controls">
+            <button id="tts-generate-play-button" type="button">Generate & Play</button>
+            <button id="tts-stop-button" type="button">Stop</button>
+          </div>
+
+          <dl class="debug-grid">
+            <div>
+              <dt>TTS status</dt>
+              <dd id="tts-status">idle</dd>
+            </div>
+            <div>
+              <dt>Last audio URL / blob URL</dt>
+              <dd id="tts-last-audio-url">none</dd>
+            </div>
+            <div>
+              <dt>Request duration ms</dt>
+              <dd id="tts-request-duration-ms">none</dd>
+            </div>
+          </dl>
+
+          <pre id="tts-error-output" class="error-output" hidden></pre>
+        </section>
+
+        <pre id="error-output" class="error-output" hidden></pre>
+      </section>
+    </main>
+    <script src="/live2d/core/live2dcubismcore.min.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

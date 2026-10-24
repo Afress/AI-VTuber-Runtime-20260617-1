@@ -1,0 +1,33 @@
+{
+  "name": "@runtime/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:runtime-endpoints": "node test/RuntimeEndpoints.test.mjs",
+    "test:chinese-normalization": "node test/ChineseTranscriptNormalizer.test.mjs",
+    "test:normalized-transcript-review": "node test/NormalizedTranscriptReview.test.mjs",
+    "test:stage-presentation": "node --test test/StagePresentationShell.test.mjs test/StagePresentationShell.render.test.mjs",
+    "test:voice-turn-submission": "node test/VoiceTurnSubmission.test.mjs"
+  },
+  "dependencies": {
+    "@runtime/audio-core": "workspace:*",
+    "@runtime/avatar-core": "workspace:*",
+    "@runtime/avatar-vrm": "workspace:*",
+    "@runtime/brain": "workspace:*",
+    "@runtime/speech-core": "workspace:*",
+    "@runtime/stt-core": "workspace:*",
+    "@vitejs/plugin-react": "^4.3.0",
+    "opencc-js": "1.4.1",
+    "pixi-live2d-display": "^0.4.0",
+    "pixi.js": "8.19.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.4.0",
+    "untitled-pixi-live2d-engine": "1.2.2",
+    "vite": "^5.2.0"
+  }
+}

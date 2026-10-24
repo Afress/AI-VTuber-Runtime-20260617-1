@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+faster-whisper
+# Windows certificate-store bridge used by the local HTTP client environment.
+# It does not disable TLS verification; an enterprise/local CA still needs a
+# valid certificate chain and basic constraints.
+python-certifi-win32

@@ -1,0 +1,17 @@
+{
+  "name": "@runtime/audio-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test:input": "node --test test/BrowserAudioInput.test.mjs",
+    "test:vad": "node --test test/AdaptiveEnergyVad.test.mjs",
+    "test:segment-capture": "node --test test/AudioSegmentCapture.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

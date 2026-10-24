@@ -1,0 +1,11 @@
+{
+  "host": "127.0.0.1",
+  "port": 7890,
+  "model": "small",
+  "device": "cuda",
+  "compute_type": "float16",
+  "language": "auto",
+  "maximum_audio_bytes": 8388608,
+  "maximum_duration_ms": 35000,
+  "maximum_concurrent_requests": 1
+}

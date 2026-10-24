@@ -1,0 +1,21 @@
+{
+  "name": "@runtime/desktop",
+  "version": "0.0.0",
+  "description": "Electron desktop runtime shell for AI VTuber Runtime",
+  "author": "AI VTuber Runtime",
+  "private": true,
+  "main": "dist/main.js",
+  "scripts": {
+    "build:main": "tsc -p tsconfig.json",
+    "dev": "pnpm run build:main && electron .",
+    "build": "pnpm run build:main",
+    "test": "pnpm run build:main && node test/desktopRuntime.test.mjs",
+    "package:unpacked": "pnpm --filter @runtime/web build && pnpm run build:main && electron-builder --config electron-builder.config.cjs --dir"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "electron": "^30.0.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.9.3"
+  }
+}

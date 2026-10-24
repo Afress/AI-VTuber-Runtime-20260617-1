@@ -1,0 +1,11 @@
+{
+  "name": "vtuber-runtime",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @runtime/web dev",
+    "dev:desktop": "pnpm --filter @runtime/desktop dev",
+    "build": "pnpm -r build"
+  }
+}
