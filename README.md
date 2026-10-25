@@ -17,6 +17,8 @@
 
 以上是程式碼涵蓋的能力，不表示本次擷取後已全部通過執行驗收；相關測試位置見下方。
 
+[![觀看示範影片]([https://youtube.com](https://youtu.be/S0yqxic_W0E))]([https://youtu.be](https://youtu.be/S0yqxic_W0E))
+
 ## 技術與架構
 
 | 層級 | 使用技術／職責 |
