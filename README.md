@@ -17,7 +17,11 @@
 
 以上是程式碼涵蓋的能力，不表示本次擷取後已全部通過執行驗收；相關測試位置見下方。
 
-[![觀看示範影片]([https://youtube.com](https://youtu.be/S0yqxic_W0E))]([https://youtu.be](https://youtu.be/S0yqxic_W0E))
+## 系統展示影片
+
+[![點擊觀看系統展示影片](https://img.youtube.com/vi/S0yqxic_W0E/hqdefault.jpg)](https://youtu.be/S0yqxic_W0E)
+
+點擊圖片前往 YouTube 觀看。
 
 ## 技術與架構
 
